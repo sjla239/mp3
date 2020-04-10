@@ -1,0 +1,8 @@
+#surefire_0
+#Fri Apr 10 16:18:52 EDT 2020
+java.io.tmpdir=/home/sjla239/mp3/core/target
+java.awt.headless=true
+forkedProcessTimeoutInSeconds=3600
+user.dir=/home/sjla239/mp3/core
+localRepository=/home/sjla239/.m2/repository
+basedir=/home/sjla239/mp3/core

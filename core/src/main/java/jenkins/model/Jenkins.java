@@ -475,6 +475,11 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
      */
     public final Hudson.CloudList clouds = new Hudson.CloudList(this);
 
+     void updateAndTrim() {
+        updateComputerList();
+        trimLabels();
+    }
+
     public static class CloudList extends DescribableList<Cloud,Descriptor<Cloud>> {
         public CloudList(Jenkins h) {
             super(h);
@@ -4204,10 +4209,7 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
     public static final Permission RUN_SCRIPTS = new Permission(PERMISSIONS, "RunScripts", Messages._Hudson_RunScriptsPermission_Description(),ADMINISTER,PermissionScope.JENKINS);
 
 
-    private void updateAndTrim() {
-        jenkins.updateComputerList();
-        jenkins.trimLabels();
-    }
+
     /**
      * {@link Authentication} object that represents the anonymous user.
      * Because Acegi creates its own {@link AnonymousAuthenticationToken} instances, the code must not
