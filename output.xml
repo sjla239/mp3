@@ -10,7 +10,7 @@ Usage: cpd [options]
        Report format. Default value is text
     --help, -h
        Print help text
-       Default: false x
+       Default: false
         --ignore-annotations
        Ignore language annotations when comparing text
        Default: false
