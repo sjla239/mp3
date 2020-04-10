@@ -1,0 +1,10 @@
+Code Smells MP3
+
+Question 1)
+This is duplicated code and can be refactored with a extract inline method
+
+Question 3)
+This code has feature envy and wishes it were in the jenkins class
+
+Question 4)
+We can solve this with a for loop. This is an example of duplicated code.
