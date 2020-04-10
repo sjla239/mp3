@@ -4203,6 +4203,11 @@ public class Jenkins extends AbstractCIBase implements DirectlyModifiableTopLeve
     public static final Permission READ = new Permission(PERMISSIONS,"Read",Messages._Hudson_ReadPermission_Description(),Permission.READ,PermissionScope.JENKINS);
     public static final Permission RUN_SCRIPTS = new Permission(PERMISSIONS, "RunScripts", Messages._Hudson_RunScriptsPermission_Description(),ADMINISTER,PermissionScope.JENKINS);
 
+
+    private void updateAndTrim() {
+        jenkins.updateComputerList();
+        jenkins.trimLabels();
+    }
     /**
      * {@link Authentication} object that represents the anonymous user.
      * Because Acegi creates its own {@link AnonymousAuthenticationToken} instances, the code must not

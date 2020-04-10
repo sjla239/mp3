@@ -112,9 +112,10 @@ public class Nodes implements Saveable {
                     Nodes.this.nodes.put(name, n);
                 }
                 Nodes.this.nodes.keySet().removeAll(toRemove); // directory clean up will be handled by save
-                jenkins.updateComputerList();
-                jenkins.trimLabels();
+                updateAndTrim();
             }
+
+
         });
         save();
     }

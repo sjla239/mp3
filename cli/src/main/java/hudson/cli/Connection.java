@@ -53,6 +53,8 @@ import java.security.Signature;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.InvalidAlgorithmParameterException;
 
 public class Connection {
     public final InputStream in;
@@ -72,7 +74,7 @@ public class Connection {
         this.dout = new DataOutputStream(out);
     }
 
-//
+    //
 //
 // Convenience methods
 //
@@ -152,19 +154,17 @@ public class Connection {
         if (side) {
             AlgorithmParameterGenerator paramGen = AlgorithmParameterGenerator.getInstance("DH");
             paramGen.init(keySize);
+            DHParameterSpec SP= paramGen.generateParameters().getParameterSpec(DHParameterSpec.class);
 
-            KeyPairGenerator dh = KeyPairGenerator.getInstance("DH");
-            dh.initialize(paramGen.generateParameters().getParameterSpec(DHParameterSpec.class));
-            keyPair = dh.generateKeyPair();
-
+            keyPair = generateKeyPairWithSpec(SP);
             // send a half and get a half
             writeKey(keyPair.getPublic());
             otherHalf = KeyFactory.getInstance("DH").generatePublic(readKey());
         } else {
             otherHalf = KeyFactory.getInstance("DH").generatePublic(readKey());
-
+            DHParameterSpec SP = ((DHPublicKey) otherHalf).getParams();
             KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("DH");
-            keyPairGen.initialize(((DHPublicKey) otherHalf).getParams());
+            keyPairGen.initialize(SP);
             keyPair = keyPairGen.generateKeyPair();
 
             // send a half and get a half
@@ -176,6 +176,14 @@ public class Connection {
         ka.doPhase(otherHalf, true);
 
         return ka;
+    }
+
+    private KeyPair generateKeyPairWithSpec(DHParameterSpec SP) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        KeyPair keyPair;
+        KeyPairGenerator dh = KeyPairGenerator.getInstance("DH");
+        dh.initialize(SP);
+        keyPair = dh.generateKeyPair();
+        return keyPair;
     }
 
     /**
