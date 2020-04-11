@@ -8,3 +8,7 @@ This code has feature envy and wishes it were in the jenkins class
 
 Question 4)
 We can solve this with a for loop. This is an example of duplicated code.
+
+Question 6)
+Line 537 of the output.xml
+4 duplications of similar code can be refactored as one call to a single method that accepts the argument as a parameter
