@@ -123,16 +123,32 @@ public class RunParameterDefinition extends SimpleParameterDefinition {
         // use getFilter() method so we dont have to worry about null filter value.
         switch (getFilter()) {
             case COMPLETED:
-                return getProject().getBuilds().overThresholdOnly(Result.ABORTED).completedOnly();
+                return getProjectAbort();
             case SUCCESSFUL:
-                return getProject().getBuilds().overThresholdOnly(Result.UNSTABLE).completedOnly();
+                return getProjectUnstable();
             case STABLE	:
-                return getProject().getBuilds().overThresholdOnly(Result.SUCCESS).completedOnly();
+                return getProjectSuccess();
             default:
-                return getProject().getBuilds();
+                return getProjectDefault();
         }
     }
-
+    
+    public RunList getProjectAbort() {
+    	return getProject().getBuilds().overThresholdOnly(Result.ABORTED).completedOnly();
+    }
+    
+    public RunList getProjectUnstable() {
+    	return getProject().getBuilds().overThresholdOnly(Result.UNSTABLE).completedOnly();
+    }
+    
+    public RunList getProjectSuccess() {
+    	return getProject().getBuilds().overThresholdOnly(Result.SUCCESS).completedOnly();
+    }
+    
+    public RunList getProjectDefault() {
+    	return getProject().getBuilds();
+    }
+    
     @Extension
     public static class DescriptorImpl extends ParameterDescriptor {
         @Override
